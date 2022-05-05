@@ -20,6 +20,5 @@ public class Application implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		this.recipeRepository.save(new Recipe("One Pot"));
 		this.recipeRepository.save(new Recipe("Smash Burgers"));
-
 	}
 }
