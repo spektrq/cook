@@ -18,6 +18,7 @@ public class Recipe {
     public Recipe(String title) {
         this.title = title;
     }
+
     public String getTitle() {
         return title;
     }
@@ -28,5 +29,10 @@ public class Recipe {
 
     public long getId() {
         return id;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s", title);
     }
 }

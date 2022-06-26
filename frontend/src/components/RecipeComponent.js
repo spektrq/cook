@@ -1,17 +1,23 @@
-import React from 'react';
+import React from 'react'
 import RecipeService from '../services/RecipeService'
+import CreateRecipe from '../components/CreateRecipe.js'
 
 class RecipeComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      recipes:[]
+      recipes:[],
+      recipeTitle: ''
     }
   }
 
   componentDidMount() {
+    this.loadRecipes()
+  }
+
+  loadRecipes = () => {
     RecipeService.getRecipes().then((response) => {
-      this.setState({ recipes: response.data})
+      this.setState({ recipes: response.data })
     });
   }
 
@@ -39,6 +45,7 @@ class RecipeComponent extends React.Component {
               }
             </tbody>
           </table>
+          <CreateRecipe loadRecipes={this.loadRecipes} />
         </div>
       )
   }
