@@ -1,8 +1,10 @@
 import React from 'react'
 import RecipeService from '../services/RecipeService'
-import CreateRecipe from '../components/CreateRecipe.js'
+import CreateRecipeButton from './CreateRecipeButton'
+import EditRecipeButton from './EditRecipeButton'
 
-class RecipeComponent extends React.Component {
+
+class RecipeList extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -12,10 +14,6 @@ class RecipeComponent extends React.Component {
   }
 
   componentDidMount() {
-    this.loadRecipes()
-  }
-
-  loadRecipes = () => {
     RecipeService.getRecipes().then((response) => {
       this.setState({ recipes: response.data })
     });
@@ -23,9 +21,9 @@ class RecipeComponent extends React.Component {
 
   render() {
       return (
-        <div>
-          <h1 className="text-center">Recipe List</h1>
-          <table className="table table-striped">
+        <div className='container'>
+          <h1 className='text-center'>Recipe List</h1>
+          <table className='table table-striped'>
             <thead>
               <tr>
                 <td>Recipe ID</td>
@@ -40,15 +38,16 @@ class RecipeComponent extends React.Component {
                   <tr key = {recipe.id}>
                     <td>{recipe.id}</td>
                     <td>{recipe.title}</td>
+                    <td><EditRecipeButton id={recipe.id}/></td>
                   </tr>
                 )
               }
             </tbody>
           </table>
-          <CreateRecipe loadRecipes={this.loadRecipes} />
+          <CreateRecipeButton />
         </div>
       )
   }
 }
 
-export default RecipeComponent
+export default RecipeList

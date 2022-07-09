@@ -1,18 +1,25 @@
-import RecipeComponent from './components/RecipeComponent';
-import NavBar from './components/NavBar.js';
-import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import RecipeList from './components/RecipeList';
+import CreateRecipeForm from './components/CreateRecipeForm';
+
+import Navigation from './components/Navigation.js';
 import Home from './pages/Home';
 import Recipes from './pages/Recipes.js';
-import './App.css';
+import EditRecipe from './pages/EditRecipe';
+import CreateRecipe from './pages/CreateRecipe.js';
+
+import React, { Component }  from 'react';
+import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
     <>
       <Router>
-        <NavBar />
+        <Navigation />
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/recipes' element={<Recipes />} />
+            <Route path='/recipes/create-recipe' element={<CreateRecipe />} />
+            <Route path='/recipes/edit-recipe/:id' element={<EditRecipe />} />
           </Routes>
       </Router>
     </>

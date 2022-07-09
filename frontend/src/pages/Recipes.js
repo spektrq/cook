@@ -1,10 +1,10 @@
 import React from 'react';
-import RecipeComponent from '../components/RecipeComponent.js'
+import RecipeList from '../components/RecipeList.js'
 
 function Recipes() {
   return (
     <div className='recipes'>
-      <RecipeComponent />
+      <RecipeList />
     </div>
   );
 }

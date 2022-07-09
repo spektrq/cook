@@ -8,6 +8,10 @@ class RecipeService {
     return axios.get(RECIPES_URL);
   }
 
+  getRecipe(id) {
+  return axios.get(RECIPES_URL + '/' + id)
+  }
+
   createRecipe(recipeTitle) {
     return (
       axios.post(RECIPES_URL, {
@@ -20,6 +24,12 @@ class RecipeService {
         console.log(error);
       })
     );
+  }
+
+  updateRecipe(recipe) {
+    return (
+      axios.put(RECIPES_URL + '/' + recipe.id, recipe)
+    )
   }
 }
 
