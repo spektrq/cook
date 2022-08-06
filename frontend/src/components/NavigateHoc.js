@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import React, { Component }  from 'react';
+import React from 'react';
 
 export const withNavigate = Component => props => {
   const navigate = useNavigate();

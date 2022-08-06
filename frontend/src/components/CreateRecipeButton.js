@@ -1,14 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import React, { Component }  from 'react';
+import React from 'react';
+import Button from 'react-bootstrap/Button'
 
 function CreateRecipeButton() {
   let navigate = useNavigate();
   return (
-    <div>
-      <button className="btn btn-primary" onClick={() => navigate('/recipes/create-recipe')}>
+      <Button variant="primary" onClick={() => navigate('/recipes/modify-recipe/-1')}>
        Create Recipe
-      </button>
-    </div>
+      </Button>
   );
 }
 

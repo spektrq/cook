@@ -2,7 +2,10 @@ import React from 'react'
 import RecipeService from '../services/RecipeService'
 import CreateRecipeButton from './CreateRecipeButton'
 import EditRecipeButton from './EditRecipeButton'
+import DeleteRecipeButton from './DeleteRecipeButton'
 
+import { Link } from 'react-router-dom'
+import {Container, Form, Table} from 'react-bootstrap'
 
 class RecipeList extends React.Component {
   constructor(props) {
@@ -14,6 +17,10 @@ class RecipeList extends React.Component {
   }
 
   componentDidMount() {
+    this.updateRecipes()
+  }
+
+  updateRecipes = () => {
     RecipeService.getRecipes().then((response) => {
       this.setState({ recipes: response.data })
     });
@@ -21,13 +28,14 @@ class RecipeList extends React.Component {
 
   render() {
       return (
-        <div className='container'>
+        <Container>
           <h1 className='text-center'>Recipe List</h1>
-          <table className='table table-striped'>
+          <Table striped>
             <thead>
               <tr>
-                <td>Recipe ID</td>
-                <td>Recipe Name</td>
+                <th>Recipe ID</th>
+                <th>Recipe Name</th>
+                <th>Actions</th>
               </tr>
             </thead>
 
@@ -37,15 +45,18 @@ class RecipeList extends React.Component {
                   recipe =>
                   <tr key = {recipe.id}>
                     <td>{recipe.id}</td>
-                    <td>{recipe.title}</td>
-                    <td><EditRecipeButton id={recipe.id}/></td>
+                    <td><Link to={`/recipes/view-recipe/${recipe.id}`}>{recipe.title}</Link></td>
+                    <td>
+                      <EditRecipeButton id={recipe.id}/>{' '}
+                      <DeleteRecipeButton id={recipe.id} updateRecipes={this.updateRecipes}/>
+                    </td>
                   </tr>
                 )
               }
             </tbody>
-          </table>
+          </Table>
           <CreateRecipeButton />
-        </div>
+        </Container>
       )
   }
 }

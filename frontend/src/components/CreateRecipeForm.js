@@ -2,20 +2,58 @@ import React from 'react';
 import RecipeService from '../services/RecipeService'
 import { withNavigate } from './NavigateHoc'
 
+import {Button, Container, Form, Card, Row} from 'react-bootstrap'
+
 class CreateRecipeForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      recipeTitle: ''
+      id: props.id,
+      recipeTitle: '',
+      edit: props.id > 0
     }
   }
 
-  handleAddRecipe = async () => {
-    const title = this.state.recipeTitle
+  componentDidMount() {
+    //return early, as we're not updating an existing recipe
+    document.addEventListener("keydown", this.escFunction, false)
 
+    if (!this.state.edit) {
+      return
+    }
+
+    RecipeService.getRecipe(this.state.id).then((response) => {
+                    this.setState({ recipeTitle: response.data.title });
+                  });
+
+
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.escFunction, false);
+  }
+
+escFunction = (e) => {
+    if (e.key === "Escape") {
+      this.cancel();
+    }
+}
+
+  handleAddRecipe = async (e) => {
+    e.preventDefault()
+    const title = this.state.recipeTitle
     if (title === '') return
-    await RecipeService.createRecipe(title)
-    console.log('Created recipe ' + title)
+
+    if (this.state.edit) {
+      let recipe = { title: title, id: this.state.id }
+
+      console.log('Recipe => ' + JSON.stringify(recipe))
+      await RecipeService.updateRecipe(recipe)
+      console.log('Updated recipe ' + title)
+    } else {
+      await RecipeService.createRecipe(title)
+      console.log('Created recipe ' + title)
+    }
 
     const { navigate } = this.props
     navigate('/recipes')
@@ -31,30 +69,24 @@ class CreateRecipeForm extends React.Component {
   }
 
   render() {
-      return (
-        <div>
-          <div className='container'>
-            <div className='row'>
-              <div className='card col-md-6 offset-md-3 offset-md-3'>
-                <div className='card-body'>
-                    <form>
-                      <div className='form-group'>
-                        <label>Title: </label>
-                          <input onChange={ this.setRecipeTitle } type='text' name='recipeTitle' className='form-control'/>
-                      </div>
-                      <button type='button' className='btn btn-success' onClick={ this.handleAddRecipe}>
-                        Submit
-                      </button>
-                      <button className='btn btn-danger' onClick={ this.cancel}>
-                        Cancel
-                      </button>
-                    </form>
-                  </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
+    return (
+      <Container>
+        <Row>
+          <Card className='col-md-6 offset-md-3 offset-md-3 mt-5'>
+            <Card.Body>
+              <Form onSubmit={this.handleAddRecipe}>
+                <Form.Group className='mb-3'>
+                  <Form.Label>Title:</Form.Label>
+                  <Form.Control type='text' placeholder='Title' onChange={this.setRecipeTitle} value={this.state.recipeTitle}/>
+                </Form.Group>
+                <Button variant='success' type='submit'>Submit</Button>{' '}
+                <Button variant='danger' type='cancel' onClick={ this.cancel}>Cancel</Button>
+              </Form>
+            </Card.Body>
+          </Card>
+        </Row>
+      </Container>
+    );
   }
 }
 

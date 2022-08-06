@@ -12,6 +12,10 @@ class RecipeService {
   return axios.get(RECIPES_URL + '/' + id)
   }
 
+  deleteRecipe(id) {
+    return axios.delete(RECIPES_URL + '/' + id)
+  }
+
   createRecipe(recipeTitle) {
     return (
       axios.post(RECIPES_URL, {
