@@ -2,7 +2,6 @@ package com.spektr.server.controller;
 
 import com.spektr.server.model.Recipe;
 import com.spektr.server.repository.RecipeRepository;
-import org.apache.coyote.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
