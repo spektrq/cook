@@ -5,7 +5,7 @@ import EditRecipeButton from './EditRecipeButton'
 import DeleteRecipeButton from './DeleteRecipeButton'
 
 import { Link } from 'react-router-dom'
-import {Container, Form, Table} from 'react-bootstrap'
+import {Container, Table} from 'react-bootstrap'
 
 class RecipeList extends React.Component {
   constructor(props) {

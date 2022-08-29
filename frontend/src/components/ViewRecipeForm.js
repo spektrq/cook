@@ -2,19 +2,22 @@ import React from 'react';
 import RecipeService from '../services/RecipeService'
 import { withNavigate } from './NavigateHoc'
 
-import {Container, Row, Table, Button} from 'react-bootstrap'
+import {Container, Table, Button} from 'react-bootstrap'
 
 class ViewRecipeForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      id: props.id
+      id: props.id,
+      recipeTitle: '',
+      ingredients: []
     }
   }
 
   componentDidMount() {
     RecipeService.getRecipe(this.state.id).then((response) => {
-                    this.setState({ recipeTitle: response.data.title });
+                    this.setState({ recipeTitle: response.data.title,
+                                    ingredients: response.data.ingredients});
                   });
 
     document.addEventListener("keydown", this.escFunction, false)
@@ -52,6 +55,24 @@ class ViewRecipeForm extends React.Component {
               </tr>
             </tbody>
           </Table>
+          <Table striped>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Amount</th>
+              <th>Measurement</th>
+            </tr>
+          </thead>
+          <tbody>
+          {this.state.ingredients.map((ingredient, index) => (
+              <tr>
+                <td>{ingredient.name}</td>
+                <td>{ingredient.amount}</td>
+                <td>{ingredient.measurement}</td>
+              </tr>
+            ))}
+            </tbody>
+            </Table>
           <Button variant='danger' type='cancel' onClick={ this.cancel}>Close</Button>
       </Container>
     );

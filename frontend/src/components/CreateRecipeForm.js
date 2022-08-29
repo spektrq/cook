@@ -2,7 +2,7 @@ import React from 'react';
 import RecipeService from '../services/RecipeService'
 import { withNavigate } from './NavigateHoc'
 
-import {Button, Container, Form, Card, Row} from 'react-bootstrap'
+import {Button, Container, Form, Card, Row, Col} from 'react-bootstrap'
 
 class CreateRecipeForm extends React.Component {
   constructor(props) {
@@ -10,7 +10,8 @@ class CreateRecipeForm extends React.Component {
     this.state = {
       id: props.id,
       recipeTitle: '',
-      edit: props.id > 0
+      edit: props.id > 0,
+      ingredientEntries: [{'name':'', 'amount': '', 'measurement': ''}]
     }
   }
 
@@ -45,14 +46,14 @@ escFunction = (e) => {
     if (title === '') return
 
     if (this.state.edit) {
-      let recipe = { title: title, id: this.state.id }
+      let recipe = { title: title, id: this.state.id, ingredients: this.state.ingredientEntries}
 
       console.log('Recipe => ' + JSON.stringify(recipe))
       await RecipeService.updateRecipe(recipe)
       console.log('Updated recipe ' + title)
     } else {
-      await RecipeService.createRecipe(title)
-      console.log('Created recipe ' + title)
+      await RecipeService.createRecipe(title, this.state.ingredientEntries)
+      console.log('Created recipe ' + title + ' with ingredients ' + this.state.ingredientEntries)
     }
 
     const { navigate } = this.props
@@ -61,6 +62,33 @@ escFunction = (e) => {
 
   setRecipeTitle = (e) =>  {
     this.setState({recipeTitle: e.target.value})
+  }
+
+  handleChangeInput = (index, e) => {
+    const regex = /^\d+(\.\d*)?$/;
+
+    if (e.target.name === 'amount' && !regex.test(e.target.value) && e.target.value !== '') {
+      return
+    }
+
+    const values = [ ...this.state.ingredientEntries]
+    values[index][e.target.name] = e.target.value
+    this.setState({ingredientEntries: values})
+    console.log(this.state.ingredientEntries)
+  }
+
+  handleAddIngredient = () => {
+    this.setState({ingredientEntries: [...this.state.ingredientEntries, {name: '', amount: '', measurement: ''}]})
+  }
+
+  handleRemoveIngredient = () => {
+    if (this.state.ingredientEntries.length <= 1) {
+      return
+    }
+
+    this.setState({ingredientEntries: this.state.ingredientEntries.splice(-1)})
+    console.log(this.state.ingredientEntries)
+
   }
 
   cancel = () => {
@@ -78,6 +106,26 @@ escFunction = (e) => {
                 <Form.Group className='mb-3'>
                   <Form.Label>Title:</Form.Label>
                   <Form.Control type='text' placeholder='Title' onChange={this.setRecipeTitle} value={this.state.recipeTitle}/>
+                </Form.Group>
+                <Form.Group className='mb-3'>
+                  <Form.Label>Ingredients:</Form.Label>
+                  {this.state.ingredientEntries.map((ingredient, index) => (
+                    <div key={index}>
+                      <Row className='mb-3'>
+                        <Col md>
+                          <Form.Control type='text' placeholder='Name' onChange={e => this.handleChangeInput(index, e)} name='name' value={ingredient.name} />
+                        </Col>
+                        <Col md>
+                          <Form.Control type='text' placeholder='Amount' onChange={e => this.handleChangeInput(index, e)} name='amount' value={ingredient.amount} />
+                        </Col>
+                        <Col>
+                          <Form.Control type='text' placeholder='Measurement' onChange={e => this.handleChangeInput(index, e)} name='measurement' value={ingredient.measurement} />
+                        </Col>
+                      </Row>
+                    </div>
+                  ))}
+                  <Button variant='secondary' onClick={this.handleAddIngredient}>Add</Button>{' '}
+                  <Button variant='warning' onClick={this.handleRemoveIngredient}>Remove</Button>{' '}
                 </Form.Group>
                 <Button variant='success' type='submit'>Submit</Button>{' '}
                 <Button variant='danger' type='cancel' onClick={ this.cancel}>Cancel</Button>

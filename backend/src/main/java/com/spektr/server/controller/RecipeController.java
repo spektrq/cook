@@ -53,6 +53,7 @@ public class RecipeController {
                                          .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find recipe with id " + id));
 
         recipe.setTitle(recipeDetails.getTitle());
+        recipe.setIngredients(recipe.getIngredients());
 
         Recipe updatedRecipe = _recipeRepository.save(recipeDetails);
         return ResponseEntity.ok(updatedRecipe);

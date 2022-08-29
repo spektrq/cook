@@ -1,6 +1,5 @@
 import React from 'react';
 import ViewRecipeForm from '../components/ViewRecipeForm'
-import RecipeService from '../services/RecipeService'
 
 import {useParams} from 'react-router'
 
