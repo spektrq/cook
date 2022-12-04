@@ -24,10 +24,9 @@ class CreateRecipeForm extends React.Component {
     }
 
     RecipeService.getRecipe(this.state.id).then((response) => {
-                    this.setState({ recipeTitle: response.data.title });
+                    this.setState({ recipeTitle: response.data.title,
+                                    ingredientEntries:response.data.ingredients });
                   });
-
-
   }
 
   componentWillUnmount() {
@@ -86,7 +85,7 @@ escFunction = (e) => {
       return
     }
 
-    this.setState({ingredientEntries: this.state.ingredientEntries.splice(-1)})
+    this.setState({ingredientEntries: this.state.ingredientEntries.slice(0, -1)})
     console.log(this.state.ingredientEntries)
 
   }
