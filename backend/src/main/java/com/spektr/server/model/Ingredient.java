@@ -16,15 +16,10 @@ public class Ingredient {
     @Column(name = "amount")
     private String amount;
 
-    @Column(name = "measurement")
-    private String measurement;
-
     @Column(name = "recipe_id")
     private long recipeId;
 
-    public Ingredient() {
-
-    }
+    public Ingredient() {}
 
     public String getName() {
         return name;
@@ -42,12 +37,8 @@ public class Ingredient {
         this.amount = amount;
     }
 
-    public String getMeasurement() {
-        return measurement;
-    }
-
     @Override
     public String toString() {
-        return String.format("%s, %s, %s", name, amount, measurement);
+        return String.format("%s, %s", name, amount);
     }
 }

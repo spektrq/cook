@@ -11,7 +11,7 @@ class CreateRecipeForm extends React.Component {
       id: props.id,
       recipeTitle: '',
       edit: props.id > 0,
-      ingredientEntries: [{'name':'', 'amount': '', 'measurement': ''}]
+      ingredientEntries: [{'name':'', 'amount': ''}]
     }
   }
 
@@ -64,11 +64,11 @@ escFunction = (e) => {
   }
 
   handleChangeInput = (index, e) => {
-    const regex = /^\d+(\.\d*)?$/;
+    // const regex = /^\d+(\.\d*)?$/;
 
-    if (e.target.name === 'amount' && !regex.test(e.target.value) && e.target.value !== '') {
-      return
-    }
+    // if (e.target.name === 'amount' && !regex.test(e.target.value) && e.target.value !== '') {
+    //   return
+    // }
 
     const values = [ ...this.state.ingredientEntries]
     values[index][e.target.name] = e.target.value
@@ -77,15 +77,19 @@ escFunction = (e) => {
   }
 
   handleAddIngredient = () => {
-    this.setState({ingredientEntries: [...this.state.ingredientEntries, {name: '', amount: '', measurement: ''}]})
+    this.setState({ingredientEntries: [...this.state.ingredientEntries, {name: '', amount: ''}]})
   }
 
-  handleRemoveIngredient = () => {
+  handleRemoveIngredient = (index, e) => {
     if (this.state.ingredientEntries.length <= 1) {
+      this.setState({ingredientEntries: [{'name':'', 'amount': ''}]})
       return
     }
 
-    this.setState({ingredientEntries: this.state.ingredientEntries.slice(0, -1)})
+    let entries = this.state.ingredientEntries
+    entries.splice(index, 1)
+
+    this.setState({ingredientEntries: entries})
     console.log(this.state.ingredientEntries)
 
   }
@@ -112,19 +116,19 @@ escFunction = (e) => {
                     <div key={index}>
                       <Row className='mb-3'>
                         <Col md>
+                          <Form.Control type='text' placeholder='Amount' onChange={e => this.handleChangeInput(index, e)} name='amount' value={ingredient.amount} />
+                        </Col>
+                        <Col md>
                           <Form.Control type='text' placeholder='Name' onChange={e => this.handleChangeInput(index, e)} name='name' value={ingredient.name} />
                         </Col>
                         <Col md>
-                          <Form.Control type='text' placeholder='Amount' onChange={e => this.handleChangeInput(index, e)} name='amount' value={ingredient.amount} />
-                        </Col>
-                        <Col>
-                          <Form.Control type='text' placeholder='Measurement' onChange={e => this.handleChangeInput(index, e)} name='measurement' value={ingredient.measurement} />
+                          <Button variant='warning' onClick={e => this.handleRemoveIngredient(index, e)}>Remove</Button>{' '}
                         </Col>
                       </Row>
                     </div>
                   ))}
                   <Button variant='secondary' onClick={this.handleAddIngredient}>Add</Button>{' '}
-                  <Button variant='warning' onClick={this.handleRemoveIngredient}>Remove</Button>{' '}
+                  
                 </Form.Group>
                 <Button variant='success' type='submit'>Submit</Button>{' '}
                 <Button variant='danger' type='cancel' onClick={ this.cancel}>Cancel</Button>

@@ -60,7 +60,6 @@ class ViewRecipeForm extends React.Component {
             <tr>
               <th>Name</th>
               <th>Amount</th>
-              <th>Measurement</th>
             </tr>
           </thead>
           <tbody>
@@ -68,7 +67,6 @@ class ViewRecipeForm extends React.Component {
               <tr>
                 <td>{ingredient.name}</td>
                 <td>{ingredient.amount}</td>
-                <td>{ingredient.measurement}</td>
               </tr>
             ))}
             </tbody>
