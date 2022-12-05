@@ -1,0 +1,8 @@
+.btn-transparent {
+    background-color: transparent;
+    border-color: transparent;
+    color: black;
+    border-radius: 60px;
+    height: 100%;
+    padding: 2px 9px;
+}

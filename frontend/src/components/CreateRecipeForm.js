@@ -1,6 +1,7 @@
 import React from 'react';
 import RecipeService from '../services/RecipeService'
 import { withNavigate } from './NavigateHoc'
+import { AiOutlineClose } from "react-icons/ai"
 
 import {Button, Container, Form, Card, Row, Col} from 'react-bootstrap'
 
@@ -119,10 +120,10 @@ escFunction = (e) => {
                           <Form.Control type='text' placeholder='Amount' onChange={e => this.handleChangeInput(index, e)} name='amount' value={ingredient.amount} />
                         </Col>
                         <Col md>
-                          <Form.Control type='text' placeholder='Name' onChange={e => this.handleChangeInput(index, e)} name='name' value={ingredient.name} />
+                          <Form.Control type='text' placeholder='Ingredient' onChange={e => this.handleChangeInput(index, e)} name='name' value={ingredient.name} />
                         </Col>
                         <Col md>
-                          <Button variant='warning' onClick={e => this.handleRemoveIngredient(index, e)}>Remove</Button>{' '}
+                          <Button variant='primary-outline' className='btn-transparent shadow-none' onClick={e => this.handleRemoveIngredient(index, e)}><AiOutlineClose /></Button>{' '}
                         </Col>
                       </Row>
                     </div>
