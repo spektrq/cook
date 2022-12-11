@@ -27,13 +27,13 @@ public class RecipeController {
 
     @GetMapping("recipes")
     public List<Recipe> getRecipes() {
-        _logger.info("Request for recipes");
+        _logger.trace("Request for recipes");
         return _recipeRepository.findAll();
     }
 
     @GetMapping("recipes/{id}")
     public Recipe getRecipes(@PathVariable long id) {
-        _logger.info("Request for recipe {}", id);
+        _logger.debug("Request for recipe {}", id);
         return _recipeRepository.findById(id)
                                 .orElseThrow(() ->
                                         new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find recipe with id " + id));

@@ -102,7 +102,7 @@ escFunction = (e) => {
 
   render() {
     return (
-      <Container>
+      <Container className='mt-5'>
         <Row>
           <Card className='col-md-6 offset-md-3 offset-md-3 mt-5'>
             <Card.Body>
@@ -116,11 +116,11 @@ escFunction = (e) => {
                   {this.state.ingredientEntries.map((ingredient, index) => (
                     <div key={index}>
                       <Row className='mb-3'>
-                        <Col md>
-                          <Form.Control type='text' placeholder='Amount' onChange={e => this.handleChangeInput(index, e)} name='amount' value={ingredient.amount} />
+                      <Col md>
+                          <Form.Control type='text' placeholder='Ingredient' onChange={e => this.handleChangeInput(index, e)} name='name' value={ingredient.name} />
                         </Col>
                         <Col md>
-                          <Form.Control type='text' placeholder='Ingredient' onChange={e => this.handleChangeInput(index, e)} name='name' value={ingredient.name} />
+                          <Form.Control type='text' placeholder='Amount' onChange={e => this.handleChangeInput(index, e)} name='amount' value={ingredient.amount} />
                         </Col>
                         <Col md>
                           <Button variant='primary-outline' className='btn-transparent shadow-none' onClick={e => this.handleRemoveIngredient(index, e)}><AiOutlineClose /></Button>{' '}

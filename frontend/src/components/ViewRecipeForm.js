@@ -2,7 +2,7 @@ import React from 'react';
 import RecipeService from '../services/RecipeService'
 import { withNavigate } from './NavigateHoc'
 
-import {Container, Table, Button} from 'react-bootstrap'
+import {Table, Container, Card, Button} from 'react-bootstrap'
 
 class ViewRecipeForm extends React.Component {
   constructor(props) {
@@ -40,38 +40,28 @@ class ViewRecipeForm extends React.Component {
 
   render() {
     return (
-      <Container>
-        <Table striped>
-          <thead>
-              <tr>
-                <th>Recipe ID</th>
-                <th>Recipe Title</th>
-              </tr>
-            </thead>
+      <Container className='mt-5'>
+        <Card>
+          <Card.Header>{this.state.recipeTitle}</Card.Header>
+          <Card.Body>
+            <Card.Title>Ingredients</Card.Title>
+          </Card.Body>
+          <Card.Body>
+          <Table borderless>
             <tbody>
-              <tr>
-                <td>{this.state.id}</td>
-                <td>{this.state.recipeTitle}</td>
-              </tr>
+              {this.state.ingredients.map((ingredient, index) => (
+                <tr>
+                  <td>{ingredient.name}</td>
+                  <td>{ingredient.amount}</td>
+                </tr>
+              ))}
             </tbody>
           </Table>
-          <Table striped>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-          {this.state.ingredients.map((ingredient, index) => (
-              <tr>
-                <td>{ingredient.name}</td>
-                <td>{ingredient.amount}</td>
-              </tr>
-            ))}
-            </tbody>
-            </Table>
-          <Button variant='danger' type='cancel' onClick={ this.cancel}>Close</Button>
+          </Card.Body>
+          <Card.Body>
+            <Button variant='danger' type='cancel' onClick={ this.cancel}>Close</Button>
+          </Card.Body>
+        </Card>
       </Container>
     );
   }

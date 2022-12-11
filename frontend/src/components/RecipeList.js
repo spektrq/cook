@@ -5,7 +5,7 @@ import EditRecipeButton from './EditRecipeButton'
 import DeleteRecipeButton from './DeleteRecipeButton'
 
 import { Link } from 'react-router-dom'
-import {Container, Table} from 'react-bootstrap'
+import {Card, Container, Table} from 'react-bootstrap'
 
 class RecipeList extends React.Component {
   constructor(props) {
@@ -28,34 +28,42 @@ class RecipeList extends React.Component {
 
   render() {
       return (
-        <Container>
-          <h1 className='text-center'>Recipe List</h1>
-          <Table striped>
-            <thead>
-              <tr>
-                <th>Recipe ID</th>
-                <th>Recipe Name</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {
-                this.state.recipes.map(
-                  recipe =>
-                  <tr key = {recipe.id}>
-                    <td>{recipe.id}</td>
-                    <td><Link to={`/recipes/view-recipe/${recipe.id}`}>{recipe.title}</Link></td>
-                    <td>
-                      <EditRecipeButton id={recipe.id}/>{' '}
-                      <DeleteRecipeButton id={recipe.id} updateRecipes={this.updateRecipes}/>
-                    </td>
+        <Container className='mt-5'>
+          <Card>
+            <Card.Body>
+              <Card.Title>Recipe List</Card.Title>
+              <Table hover size="sm">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th style={{width:"10%"}}></th>
+                    <th style={{width:"10%"}}></th>
                   </tr>
-                )
-              }
-            </tbody>
-          </Table>
-          <CreateRecipeButton />
+                </thead>
+                <tbody>
+                  {
+                    this.state.recipes.map(
+                      recipe =>
+                      <tr key = {recipe.id}>
+                        <td><Link to={`/recipes/view-recipe/${recipe.id}`}>{recipe.title}</Link></td>
+                        <td>
+                          <EditRecipeButton id={recipe.id}/>
+                        </td>
+                        <td>
+                          <DeleteRecipeButton id={recipe.id} updateRecipes={this.updateRecipes}/>
+                        </td>
+                      </tr>
+                    )
+                  }
+                </tbody>
+              </Table>
+            </Card.Body>
+            <Card.Body>
+              <CreateRecipeButton />
+            </Card.Body>
+          </Card>
+
+          
         </Container>
       )
   }
