@@ -47,7 +47,7 @@ class ViewRecipeForm extends React.Component {
             <Card.Title>Ingredients</Card.Title>
           </Card.Body>
           <Card.Body>
-          <Table borderless>
+          <Table borderless style={{width:"30%"}}>
             <tbody>
               {this.state.ingredients.map((ingredient, index) => (
                 <tr>
@@ -57,6 +57,9 @@ class ViewRecipeForm extends React.Component {
               ))}
             </tbody>
           </Table>
+          </Card.Body>
+          <Card.Body>
+            <Card.Title>Method</Card.Title>
           </Card.Body>
           <Card.Body>
             <Button variant='danger' type='cancel' onClick={ this.cancel}>Close</Button>

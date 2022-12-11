@@ -27,13 +27,13 @@ public class RecipeController {
 
     @GetMapping("recipes")
     public List<Recipe> getRecipes() {
-        _logger.trace("Request for recipes");
+        _logger.trace("GET request received for all recipes");
         return _recipeRepository.findAll();
     }
 
     @GetMapping("recipes/{id}")
     public Recipe getRecipes(@PathVariable long id) {
-        _logger.debug("Request for recipe {}", id);
+        _logger.debug("GET request received for recipeId {}", id);
         return _recipeRepository.findById(id)
                                 .orElseThrow(() ->
                                         new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find recipe with id " + id));
@@ -41,7 +41,7 @@ public class RecipeController {
 
     @PostMapping("recipes")
     public ResponseEntity<Recipe> createRecipe(@RequestBody Recipe recipe) throws URISyntaxException {
-        _logger.info("Request to create recipe: {}", recipe.toString());
+        _logger.info("POST request to create recipe with contents: {}", recipe.toString());
         Recipe result = _recipeRepository.save(recipe);
         return ResponseEntity.created(new URI("/api/recipes" + result.getId()))
                              .body(result);
@@ -49,6 +49,7 @@ public class RecipeController {
 
     @PutMapping("recipes/{id}")
     public ResponseEntity<Recipe> updateRecipe(@PathVariable long id, @RequestBody Recipe recipeDetails) {
+        _logger.info("PUT request to update recipeId {} with contents: {}",id, recipeDetails.toString());
         Recipe recipe = _recipeRepository.findById(id)
                                          .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find recipe with id " + id));
 
@@ -61,6 +62,7 @@ public class RecipeController {
 
     @DeleteMapping("recipes/{id}")
     public ResponseEntity<Map<String, Boolean>> deleteRecipe(@PathVariable long id) {
+        _logger.info("DELETE request to delete recipeId {}", id);
         Recipe recipe = _recipeRepository.findById(id)
                                          .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find recipe with id " + id));
 
