@@ -6,6 +6,7 @@ import EditRecipeButton from './EditRecipeButton'
 import { Link } from 'react-router-dom'
 import {Card, Container, Table, Button, Modal} from 'react-bootstrap'
 import DeleteAlert from './DeleteAlert'
+import { FiDelete } from 'react-icons/fi'
 
 class RecipeList extends React.Component {
   constructor(props) {
@@ -62,7 +63,7 @@ class RecipeList extends React.Component {
                           <EditRecipeButton id={recipe.id}/>
                         </td>
                         <td>
-                          <Button variant="danger" onClick={() => this.toggleAlert(recipe.id, recipe.title)}>Delete</Button>
+                          <Button data-toggle="tooltip" data-placement="top" title="Delete" variant="danger" onClick={() => this.toggleAlert(recipe.id, recipe.title)}>Delete <FiDelete /></Button>
                         </td>
                       </tr>
                     )
