@@ -10,3 +10,7 @@ CREATE TABLE IF NOT EXISTS INGREDIENTS(
     measurement VARCHAR(255),
     recipe_id INT
 );
+
+CREATE TABLE IF NOT EXISTS RECIPE_METHOD_STEPS(
+    recipe_id INT, method_step VARCHAR(255)
+);

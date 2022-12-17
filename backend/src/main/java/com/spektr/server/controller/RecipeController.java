@@ -55,6 +55,7 @@ public class RecipeController {
 
         recipe.setTitle(recipeDetails.getTitle());
         recipe.setIngredients(recipe.getIngredients());
+        recipe.setMethodSteps(recipe.getMethodSteps());
 
         Recipe updatedRecipe = _recipeRepository.save(recipeDetails);
         return ResponseEntity.ok(updatedRecipe);

@@ -18,11 +18,17 @@ public class Recipe {
     @JoinColumn(name = "recipe_id")
     private List<Ingredient> ingredients;
 
+    @ElementCollection
+    @CollectionTable(name = "recipe_method_steps", joinColumns = @JoinColumn(name = "recipe_id"))
+    @Column(name = "method_step")
+    private List<String> methodSteps;
+
     public Recipe() {}
 
-    public Recipe(String title, List<Ingredient> ingredients) {
+    public Recipe(String title, List<Ingredient> ingredients, List<String> methodSteps) {
         this.title = title;
         this.ingredients = ingredients;
+        this.methodSteps = methodSteps;
     }
 
     public long getId() {
@@ -45,8 +51,16 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
+    public List<String> getMethodSteps() {
+        return methodSteps;
+    }
+
+    public void setMethodSteps(List<String> methodSteps) {
+        this.methodSteps = methodSteps;
+    }
+
     @Override
     public String toString() {
-        return String.format("%s, %s", title, ingredients);
+        return String.format("%s, %s, %s", title, ingredients, methodSteps);
     }
 }

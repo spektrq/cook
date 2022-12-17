@@ -10,14 +10,16 @@ class ViewRecipeForm extends React.Component {
     this.state = {
       id: props.id,
       recipeTitle: '',
-      ingredients: []
+      ingredients: [],
+      methodSteps: []
     }
   }
 
   componentDidMount() {
     RecipeService.getRecipe(this.state.id).then((response) => {
                     this.setState({ recipeTitle: response.data.title,
-                                    ingredients: response.data.ingredients});
+                                    ingredients: response.data.ingredients,
+                                    methodSteps: response.data.methodSteps});
                   });
 
     document.addEventListener("keydown", this.escFunction, false)
@@ -60,6 +62,18 @@ class ViewRecipeForm extends React.Component {
           </Card.Body>
           <Card.Body>
             <Card.Title>Method</Card.Title>
+          </Card.Body>
+          <Card.Body>
+          <Table borderless style={{width:"60%"}}>
+            <tbody>
+              {this.state.methodSteps.map((step, index) => (
+                <tr>
+                  <td>{index + 1}</td>
+                  <td>{step}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
           </Card.Body>
           <Card.Body>
             <Button variant='danger' type='cancel' onClick={ this.cancel}>Close</Button>

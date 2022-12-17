@@ -16,10 +16,11 @@ class RecipeService {
     return axios.delete(RECIPES_URL + '/' + id)
   }
 
-  createRecipe(recipeTitle, recipeIngredients) {
+  createRecipe(recipeTitle, recipeIngredients, recipeMethodSteps) {
     const payload = {
        title: recipeTitle,
-       ingredients: recipeIngredients
+       ingredients: recipeIngredients,
+       methodSteps: recipeMethodSteps
      }
   console.log('payload = ' + payload);
     return (

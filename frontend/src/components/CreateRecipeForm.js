@@ -1,7 +1,7 @@
 import React from 'react';
 import RecipeService from '../services/RecipeService'
 import { withNavigate } from './NavigateHoc'
-import { AiOutlineClose } from "react-icons/ai"
+import { AiOutlineClose, AiOutlinePlus} from "react-icons/ai"
 
 import {Button, Container, Form, Card, Row, Col} from 'react-bootstrap'
 
@@ -12,7 +12,8 @@ class CreateRecipeForm extends React.Component {
       id: props.id,
       recipeTitle: '',
       edit: props.id > 0,
-      ingredientEntries: [{'name':'', 'amount': ''}]
+      ingredientEntries: [{'name':'', 'amount': ''}],
+      methodSteps: [""]
     }
   }
 
@@ -26,7 +27,8 @@ class CreateRecipeForm extends React.Component {
 
     RecipeService.getRecipe(this.state.id).then((response) => {
                     this.setState({ recipeTitle: response.data.title,
-                                    ingredientEntries:response.data.ingredients });
+                                    ingredientEntries:response.data.ingredients,
+                                    methodSteps: response.data.methodSteps.length > 0 ? response.data.methodSteps : [""] });
                   });
   }
 
@@ -46,14 +48,14 @@ escFunction = (e) => {
     if (title === '') return
 
     if (this.state.edit) {
-      let recipe = { title: title, id: this.state.id, ingredients: this.state.ingredientEntries}
+      let recipe = { title: title, id: this.state.id, ingredients: this.state.ingredientEntries, methodSteps: this.state.methodSteps}
 
       console.log('Recipe => ' + JSON.stringify(recipe))
       await RecipeService.updateRecipe(recipe)
       console.log('Updated recipe ' + title)
     } else {
-      await RecipeService.createRecipe(title, this.state.ingredientEntries)
-      console.log('Created recipe ' + title + ' with ingredients ' + this.state.ingredientEntries)
+      await RecipeService.createRecipe(title, this.state.ingredientEntries, this.state.methodSteps)
+      console.log('Created recipe ' + title + ' with ingredients ' + this.state.ingredientEntries + ' and method ' + this.state.methodSteps)
     }
 
     const { navigate } = this.props
@@ -64,7 +66,7 @@ escFunction = (e) => {
     this.setState({recipeTitle: e.target.value})
   }
 
-  handleChangeInput = (index, e) => {
+  handleChangeIngredient = (index, e) => {
     // const regex = /^\d+(\.\d*)?$/;
 
     // if (e.target.name === 'amount' && !regex.test(e.target.value) && e.target.value !== '') {
@@ -95,6 +97,31 @@ escFunction = (e) => {
 
   }
 
+  handleChangeMethodStep = (index, e) => {
+    const values = [ ...this.state.methodSteps]
+    values[index] = e.target.value
+    this.setState({methodSteps: values})
+    console.log(this.state.methodSteps)
+  }
+
+  handleAddMethodStep = () => {
+    this.setState({methodSteps: [...this.state.methodSteps, ""]})
+  }
+
+  handleRemoveMethodStep = (index, e) => {
+    if (this.state.methodSteps.length <= 1) {
+      this.setState({methodSteps: [""]})
+      return
+    }
+
+    let steps = this.state.methodSteps
+    steps.splice(index, 1)
+
+    this.setState({methodSteps: steps})
+    console.log(this.state.methodSteps) 
+
+  }
+
   cancel = () => {
     const { navigate } = this.props
     navigate('/recipes')
@@ -117,18 +144,34 @@ escFunction = (e) => {
                     <div key={index}>
                       <Row className='mb-3'>
                       <Col md>
-                          <Form.Control type='text' placeholder='Ingredient' onChange={e => this.handleChangeInput(index, e)} name='name' value={ingredient.name} />
+                          <Form.Control type='text' placeholder='Ingredient' onChange={e => this.handleChangeIngredient(index, e)} name='name' value={ingredient.name} />
                         </Col>
                         <Col md>
-                          <Form.Control type='text' placeholder='Amount' onChange={e => this.handleChangeInput(index, e)} name='amount' value={ingredient.amount} />
+                          <Form.Control type='text' placeholder='Amount' onChange={e => this.handleChangeIngredient(index, e)} name='amount' value={ingredient.amount} />
                         </Col>
                         <Col md>
-                          <Button variant='primary-outline' className='btn-transparent shadow-none' onClick={e => this.handleRemoveIngredient(index, e)}><AiOutlineClose /></Button>{' '}
+                          <Button variant='light' className='shadow-none' onClick={e => this.handleRemoveIngredient(index, e)}><AiOutlineClose /></Button>{' '}
                         </Col>
                       </Row>
                     </div>
                   ))}
-                  <Button variant='secondary' onClick={this.handleAddIngredient}>Add</Button>{' '}
+                  <Button variant='light' className='shadow-none' onClick={this.handleAddIngredient}><AiOutlinePlus /></Button>{' '}
+                </Form.Group>
+                <Form.Group className='mb-3'>
+                  <Form.Label>Method:</Form.Label>
+                  {this.state.methodSteps.map((step, index) => (
+                    <div key={index}>
+                      <Row className='mb-3'>
+                        <Col md>
+                          <Form.Control type='text' placeholder='Step' onChange={e => this.handleChangeMethodStep(index, e)} value={step} />
+                        </Col>
+                        <Col className='col-1'>
+                          <Button variant='light' className='shadow-none' onClick={e => this.handleRemoveMethodStep(index, e)}><AiOutlineClose /></Button>{' '}
+                        </Col>
+                      </Row>
+                    </div>
+                  ))}
+                  <Button variant='light' className='shadow-none' onClick={this.handleAddMethodStep}><AiOutlinePlus /></Button>{' '}
                   
                 </Form.Group>
                 <Button variant='success' type='submit'>Submit</Button>{' '}
