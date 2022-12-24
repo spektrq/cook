@@ -7,6 +7,14 @@
     padding: 2px 9px;
 }
 
+.btn-edit {
+    color: white;
+}
+
+.btn-edit:hover {
+    color: white;
+}
+
 .table td {
     border-left: none !important;
     border-right: none !important;
@@ -16,3 +24,8 @@
 .alert {
     margin-bottom: 0px;
 }
+
+.filter-right {
+    width: 25%;
+    padding: 16px 0px;
+  }

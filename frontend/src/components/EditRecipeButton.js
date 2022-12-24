@@ -6,7 +6,7 @@ import { FiEdit } from 'react-icons/fi'
 function EditRecipeButton(props) {
   let navigate = useNavigate();
   return (
-    <Button variant="info" onClick={() => navigate(`/recipes/modify-recipe/${props.id}`)}>
+    <Button className="btn-edit" variant="primary" onClick={() => navigate(`/recipes/modify-recipe/${props.id}`)}>
      Edit <FiEdit />
     </Button>
   );

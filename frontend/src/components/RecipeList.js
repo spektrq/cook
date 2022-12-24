@@ -4,9 +4,9 @@ import CreateRecipeButton from './CreateRecipeButton'
 import EditRecipeButton from './EditRecipeButton'
 
 import { Link } from 'react-router-dom'
-import {Card, Container, Table, Button, Modal} from 'react-bootstrap'
+import {Card, Container, Table, Button, Modal, Form, InputGroup} from 'react-bootstrap'
 import DeleteAlert from './DeleteAlert'
-import { FiDelete } from 'react-icons/fi'
+import { FiDelete, FiSearch,  } from 'react-icons/fi'
 
 class RecipeList extends React.Component {
   constructor(props) {
@@ -15,7 +15,8 @@ class RecipeList extends React.Component {
       recipes:[],
       recipeTitle: '',
       alertRecipeId: -1,
-      showAlert: false
+      showAlert: false,
+      filter: ""
     }
   }
 
@@ -39,12 +40,36 @@ class RecipeList extends React.Component {
     const showAlert = this.state.showAlert
     const alertRecipeId = this.state.alertRecipeId
     const alertRecipeTitle = this.state.alertRecipeTitle
+    let filteredData = this.state.recipes
+    
+    if (this.state.filter) {
+      filteredData = this.state.recipes.filter(
+        r => r.title.toLowerCase().includes(this.state.filter.toLowerCase())
+      );
+    }
 
       return (
         <Container className='mt-5'>
+          <h1>
+            Recipes
+          </h1>
+          <br />
           <Card>
             <Card.Body>
-              <Card.Title>Recipes</Card.Title>
+              <Form className="filter-right">  
+                <InputGroup>
+                    <InputGroup.Text>
+                      <FiSearch />
+                    </InputGroup.Text>
+                    <Form.Control 
+                      type="text" 
+                      placeholder="Filter"
+                      value={this.state.filter} 
+                      onChange={(e) => this.setState({ filter: e.target.value })
+                      } 
+                    />
+                </InputGroup>
+              </Form>
               <Table hover size="sm">
                 <thead>
                   <tr>
@@ -55,7 +80,7 @@ class RecipeList extends React.Component {
                 </thead>
                 <tbody>
                   {
-                    this.state.recipes.map(
+                    filteredData.map(
                       recipe =>
                       <tr key = {recipe.id}>
                         <td><Link to={`/recipes/view-recipe/${recipe.id}`}>{recipe.title}</Link></td>
