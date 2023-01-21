@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+  frontend:
+    container_name: cook-frontend-c
+    image: cook-frontend-i
+    build:
+      context: frontend
+    ports:
+      - 8080:80
+  backend:
+    container_name: cook-backend-c
+    image: cook-backend-i
+    build:
+      context: backend
+    ports:
+      - 8081:8081
+    volumes:
+      - type: bind
+        source: /f/work/cook_data
+        target: /app/cook_data
