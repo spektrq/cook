@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const RECIPES_URL = "http://localhost:8080/api/recipes";
+const RECIPES_URL = "/api/recipes";
 
 class RecipeService {
 
@@ -12,7 +12,7 @@ class RecipeService {
   return axios.get(RECIPES_URL + '/' + id)
   }
 
-  deleteRecipe(id) {
+  deleteRecipe(id) { 
     return axios.delete(RECIPES_URL + '/' + id)
   }
 
