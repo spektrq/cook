@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const RECIPES_URL = "/api/recipes";
+const RECIPES_URL = "http://localhost/api/recipes";
 
 class RecipeService {
 

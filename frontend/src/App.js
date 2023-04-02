@@ -3,6 +3,7 @@ import Home from './pages/Home';
 import Recipes from './pages/Recipes.js';
 import CreateRecipe from './pages/CreateRecipe.js';
 import ViewRecipe from './pages/ViewRecipe.js';
+import Search from './pages/SearchRecipe.js';
 
 import React from 'react';
 import {BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -17,6 +18,7 @@ function App() {
             <Route path='/recipes' element={<Recipes />} />
             <Route path='/recipes/modify-recipe/:id' element={<CreateRecipe />} />
             <Route path='/recipes/view-recipe/:id' element={<ViewRecipe />} />
+            <Route path='/search' element={ <Search />} />
           </Routes>
       </Router>
     </>

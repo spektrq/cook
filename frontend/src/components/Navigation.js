@@ -10,6 +10,7 @@ function Navigation() {
       <Navbar.Brand as={Link} to='/'>Papa Rad's Cookbook</Navbar.Brand>
       <Nav className='me-auto'>
         <Nav.Link as={Link} to='/recipes'>Recipes</Nav.Link>
+        <Nav.Link as={Link} to='/search'>Ideas</Nav.Link>
       </Nav>
       </Container>
     </Navbar>
