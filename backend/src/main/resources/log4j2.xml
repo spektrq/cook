@@ -7,7 +7,7 @@
         <Console name="LogToConsole" target="SYSTEM_OUT">
             <PatternLayout pattern="${pattern}"/>
         </Console>
-        <File name="LogToFile" fileName="logs/app.log">
+        <File name="LogToFile" fileName="/tmp/logs/app.log">
             <PatternLayout pattern="${pattern}"/>
         </File>
     </Appenders>

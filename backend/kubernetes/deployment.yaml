@@ -23,21 +23,42 @@ spec:
       labels:
         io.kompose.service: backend
     spec:
+      securityContext:
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - env:
             - name: H2_FILE_PATH
               value: /app/cook_data/database
           image: backend
           name: backend
+          securityContext:
+            runAsUser: 65532
+            runAsGroup: 65532
+            runAsNonRoot: true
+            readOnlyRootFilesystem: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - all
           ports:
             - containerPort: 8080
           resources: {}
           volumeMounts:
             - mountPath: /app/cook_data
               name: backend-claim0
+            - mountPath: /tmp
+              name: temp
       restartPolicy: Always
+
       volumes:
         - name: backend-claim0
           persistentVolumeClaim:
             claimName: backend-claim0
+        - name: temp
+          emptyDir: {}
 status: {}
